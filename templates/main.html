@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+    <link rel="stylesheet" href="/static/CSS/style.css">
+    <title>IT-OCR</title>
+</head>
+<body>
+    <h1>IT-OCR</h1>
+
+    <div class="div1">
+        <p>IT-OCR extract text from image using OCR technology.</p>
+        <p>Supported file formats are JPG, JPEG, PNG</p>
+    </div>
+
+    <form method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+        <input type="file" id="id_file" name="name_file" accept="image/*"/>
+
+        <button type="submit" id="id_proceed" name="name_proceed" value="extract_text" class="btn-Div">
+            Extract Text
+        </button>
+    </form>
+    <h3>Extracted Text:</h3>
+    <button name="cpy_txt" onclick="copyText()" class="btn-Div">
+        <div class="before-cpy">Copy Text</div>
+        <div class="after-cpy"><span>&#10003;</span>Text Copied!!</div>
+    </button>
+
+    <table class="tbl-Div">
+        <tr>
+            <th class="text-column">Text</th>
+            <th class="confidence-column">Confidence</th>
+        </tr>
+        {% for result in results %}
+            <tr>
+                <td class="text-column">{{ result.text }}</td>
+                <td class="confidence-column">{{ result.confidence }}</td>
+            </tr>
+        {% endfor %}
+    </table>
+    <p id="extracted-text">{{txt}}</p>
+</div>
+</body>
+</html>
+
+<script>
+    function copyText() {
+        const textToCopy = document.getElementById('extracted-text').innerText;
+        navigator.clipboard.writeText(textToCopy).then(() => {
+            $('.after-cpy').show();
+            $('.before-cpy').hide();
+            setTimeout(() => {
+                $('.after-cpy').hide();
+                $('.before-cpy').show();
+            }, 1500);
+        }).catch(err => {
+            console.error('Failed to copy text: ', err);
+        });
+    }
+
+    $(document).ready(function(){
+        $('.after-cpy').hide();
+    });
+</script>
