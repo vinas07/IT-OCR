@@ -1,6 +1,6 @@
 IT-OCR - Image to Text OCR
 
-IT-OCR extracts text from image using treding OCR technologies.
+IT-OCR extracts text from image using trending OCR technologies.
 
 UI and backend is done using django, so to successfully run the project you need to follow some steps.
 
